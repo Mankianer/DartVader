@@ -1,0 +1,14 @@
+name: dartvader-dev-env
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    command:
+      - start-dev
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./keycloak/h2:/opt/keycloak/data/h2
