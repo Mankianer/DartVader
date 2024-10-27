@@ -14,13 +14,15 @@ Standard admin: admin/admin
 
 ## DartVader Realm
 
+realm-id: Dev-DartVader
+
 ### Dev-DartVader - Client
 
 _Für Dev-Stage für die DartVader App._
 
-Client-ID: Dev-DartVader  
+Client-ID: dev-frontend  
 Erlaubte Adressen:  
-Frontend: http://localhost:4200
+* http://localhost:4200
 
 #### Role: DARTVADER_USER
 
