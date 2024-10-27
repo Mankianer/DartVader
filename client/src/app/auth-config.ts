@@ -11,7 +11,7 @@ export const authConfig: OpenIdConfiguration = {
   redirectUrl: window.location.origin,
   postLogoutRedirectUri: window.location.origin,
   clientId: 'dev-frontend',
-  scope: 'openid profile email',
+  scope: 'openid profile email offline_access',
   responseType: 'code',
   silentRenew: true,
   useRefreshToken: true,
