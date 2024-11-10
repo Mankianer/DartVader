@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AsyncPipe } from '@angular/common';
+import {AsyncPipe, NgIf} from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import {RouterOutlet} from '@angular/router';
+import {LoginService} from '../services/login.service';
 
 @Component({
   selector: 'app-navigation',
@@ -23,6 +24,7 @@ import {RouterOutlet} from '@angular/router';
     MatIconModule,
     AsyncPipe,
     RouterOutlet,
+    NgIf,
   ]
 })
 export class NavigationComponent {
@@ -33,4 +35,7 @@ export class NavigationComponent {
       map(result => result.matches),
       shareReplay()
     );
+
+  public constructor(public loginService: LoginService) {
+  }
 }

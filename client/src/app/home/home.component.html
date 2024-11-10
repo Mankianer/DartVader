@@ -1,5 +1,1 @@
-<p>home works!</p>
-<button mat-raised-button (click)="loginService.logout()" *ngIf="loginService.isLoggedIn() | async; else loginButton">Logout</button>
-<ng-template #loginButton>
-  <button mat-raised-button (click)="loginService.login()">Login</button>
-</ng-template>
+<button mat-flat-button (click)="openSnackBar('Wait for implementation...', 'Wait');" color="warn">Start Game</button>

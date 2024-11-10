@@ -17,7 +17,6 @@ export const httpLoaderFactory = (httpClient: HttpClient) => {
       postLoginRoute: '/home',
       forbiddenRoute: '/forbidden',
       unauthorizedRoute: '/unauthorized',
-      logLevel: LogLevel.Debug,
       historyCleanupOff: true,
       silentRenew: true,
       useRefreshToken: true,
