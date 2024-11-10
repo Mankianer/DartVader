@@ -5,12 +5,12 @@ import {routes} from './app.routes';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {AuthInterceptor, provideAuth} from 'angular-auth-oidc-client';
-import {authConfig} from './auth-config';
+import {authConfigLoader} from './auth-config';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
     provideAnimationsAsync(), {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
-    provideAuth({config: authConfig})],
+    provideAuth({loader: authConfigLoader})],
 };
