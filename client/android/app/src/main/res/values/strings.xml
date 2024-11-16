@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DartVader</string>
+    <string name="title_activity_main">DartVader</string>
+    <string name="package_name">de.mankianer.dartvader</string>
+    <string name="custom_url_scheme">de.mankianer.dartvader</string>
+</resources>
