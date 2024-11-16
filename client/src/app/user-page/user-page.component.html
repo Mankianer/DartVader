@@ -3,6 +3,8 @@
     <ng-container *ngIf="loginService.isLoggedIn() | async; else loginMessage">
       <h2>Welcome, {{ loginService.getUserName() | async }}!</h2>
       <button mat-raised-button (click)="loginService.logout()">Logout</button>
+      <button mat-raised-button (click)="callBackend()">Call</button>
+
     </ng-container>
   </mat-card-content>
 </mat-card>
