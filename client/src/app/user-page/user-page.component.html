@@ -1,10 +1,12 @@
 <mat-card>
   <mat-card-content>
-    <ng-container *ngIf="loginService.isLoggedIn() | async; else loginMessage">
-      <h2>Welcome, {{ loginService.getUserName() | async }}!</h2>
+    <ng-container *ngIf="loginService.isLoggedIn(); else loginMessage">
+      <h2>Welcome, {{ loginService.getUserName()}}!</h2>
+      <p *ngIf="loginService.isDartVaderGroup()">DartVader Player</p>
+      <h3>Your roles:</h3>
+      <p *ngFor="let r of loginService.getRoles()">{{r}}</p>
       <button mat-raised-button (click)="loginService.logout()">Logout</button>
       <button mat-raised-button (click)="callBackend()">Call</button>
-
     </ng-container>
   </mat-card-content>
 </mat-card>

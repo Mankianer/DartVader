@@ -9,7 +9,7 @@
       <a mat-list-item href="/home">Home</a>
       <a mat-list-item href="/loggedIn">Privat <mat-icon fontIcon="lock" color="warn"></mat-icon></a>
       <p class="footer">
-        <button mat-raised-button (click)="loginService.logout()" *ngIf="loginService.isLoggedIn() | async; else loginButton">Logout</button>
+        <button mat-raised-button (click)="loginService.logout()" *ngIf="loginService.isLoggedIn(); else loginButton">Logout</button>
       </p>
       <ng-template #loginButton>
         <button mat-raised-button (click)="loginService.login()">Login</button>

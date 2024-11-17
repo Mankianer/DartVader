@@ -1,36 +1,58 @@
-import { Injectable } from '@angular/core';
-import {OidcSecurityService} from 'angular-auth-oidc-client';
+import {computed, Injectable, Signal, signal, WritableSignal} from '@angular/core';
+import {LoginResponse, OidcSecurityService} from 'angular-auth-oidc-client';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  public constructor(private readonly oidcSecurityService: OidcSecurityService) {
-    // this.setUpLogin();
+  private isAuthenticated = signal(false);
+  public isLoggedIn: Signal<boolean> = this.isAuthenticated.asReadonly();
+
+  private userName = signal('N/A');
+  public getUserName: Signal<string> = this.userName.asReadonly();
+
+  private roles: WritableSignal<[string]> = signal(['N/A']);
+  public getRoles: Signal<[string]> = this.roles.asReadonly();
+
+
+  public getInRoleSignal(role: string): Signal<boolean> {
+    return computed(() => this.getRoles().includes(role));
   }
 
+  public isDartVaderGroup: Signal<boolean> = computed(() => this.getInRoleSignal('DARTVADER_USER')());
+
+  public constructor(private readonly oidcSecurityService: OidcSecurityService) {
+  }
+
+  private loginResponseObservable: Observable<LoginResponse> | undefined;
+
   setUpLogin(): void {
-    this.oidcSecurityService
+
+    this.loginResponseObservable = this.oidcSecurityService
       .checkAuth()
+
+    this.loginResponseObservable
       .subscribe(({ isAuthenticated, accessToken }) => {
         console.log('app authenticated', isAuthenticated);
-        console.log(`Current access token is '${accessToken}'`);
         this.oidcSecurityService.getUserData().subscribe((userData) => {
           console.log('userData', userData);
+
+          if(userData) {
+            this.userName.set(userData?.given_name);
+            this.roles.set(userData?.realm_access?.roles);
+          }
+
         });
+        this.isAuthenticated.set(isAuthenticated);
       });
   }
 
-  getUserName(): Observable<string> {
-    return this.oidcSecurityService.getUserData().pipe(map((data) => data.given_name));
-  }
 
   login(): void {
     console.log('start login');
-    this.oidcSecurityService.authorize();
+    this.oidcSecurityService.authorize('',{redirectUrl: window.location.origin + "/home?redirectUrl=" + window.location.pathname});
   }
 
   refreshSession(): void {
@@ -45,7 +67,4 @@ export class LoginService {
       .subscribe((result) => console.log(result));
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return this.oidcSecurityService.isAuthenticated();
-  }
 }

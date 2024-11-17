@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, effect} from '@angular/core';
 import {LoginService} from '../services/login.service';
-import {AsyncPipe, NgIf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {MatButton} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {HttpClient} from '@angular/common/http';
@@ -9,10 +9,10 @@ import {HttpClient} from '@angular/common/http';
   selector: 'app-user-page',
   standalone: true,
   imports: [
-    AsyncPipe,
     MatButton,
     NgIf,
-    MatCardModule
+    MatCardModule,
+    NgForOf
 
   ],
   templateUrl: './user-page.component.html',
@@ -28,4 +28,6 @@ export class UserPageComponent {
       console.log(data);
     });
   }
+
+  protected readonly effect = effect;
 }

@@ -1,17 +1,14 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {OidcSecurityService} from 'angular-auth-oidc-client';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {LoginService} from '../services/login.service';
 import {MatButton} from '@angular/material/button';
-import {AsyncPipe, NgIf} from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     MatButton,
-    NgIf,
-    AsyncPipe
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.sass'
@@ -20,13 +17,17 @@ export class HomeComponent implements OnInit {
 
   private _snackBar = inject(MatSnackBar);
 
-  public constructor(public loginService: LoginService) {
+  @Input()
+  set redirectUrl(value: string) {
+    if (value && value.startsWith('/')) {
+      this.router.navigate([value]).then();
+    }
+  }
+
+  public constructor(public loginService: LoginService, public router: Router) {
   }
 
   ngOnInit(): void {
-    this.loginService.isLoggedIn().subscribe((isLoggedIn) => {
-      console.log('Home: IsLoggedIn: ' + isLoggedIn);
-    });
   }
 
 

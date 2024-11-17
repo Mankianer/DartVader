@@ -1,23 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {NavigationComponent} from './navigation/navigation.component';
-import {AuthModule, OidcSecurityService} from 'angular-auth-oidc-client';
+import {AuthModule} from 'angular-auth-oidc-client';
 import {LoginService} from './services/login.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavigationComponent, AuthModule],
+  imports: [NavigationComponent, AuthModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.sass',
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'client';
 
   public constructor(public loginService: LoginService) {
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
     this.loginService.setUpLogin();
   }
 
