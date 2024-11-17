@@ -8,12 +8,12 @@ Eine wunderbare Plattform für Dart-Spieler, um sich zu vernetzen und gemeinsam 
 
 #### Version 0.1 - POC
 
-* Anmeldung (Nutzerverwaltung über Keycloak)
+* ~~Anmeldung (Nutzerverwaltung über Keycloak)~~
 * Einspieler Modus (Tracking eines Legs) 501
 * Technisches Grundgerüst:
-    * Frontend (Angular)
-    * Backend (Spring Boot)
-    * Keycloak
+    * ~~Frontend (Angular)~~
+    * ~~Backend (Spring Boot)~~
+    * ~~Keycloak~~
     * Packages Struktur
 
 #### Version 0.2 - Infrastruktur für die Entwicklung

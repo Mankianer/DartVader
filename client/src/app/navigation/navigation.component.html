@@ -7,6 +7,7 @@
     <mat-nav-list>
       <a mat-list-item href="/profile">Profile</a>
       <a mat-list-item href="/home">Home</a>
+      <a mat-list-item href="/game">Games</a>
       <a mat-list-item href="/loggedIn">Privat <mat-icon fontIcon="lock" color="warn"></mat-icon></a>
       <p class="footer">
         <button mat-raised-button (click)="loginService.logout()" *ngIf="loginService.isLoggedIn(); else loginButton">Logout</button>
