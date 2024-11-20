@@ -1,8 +1,8 @@
-import {Component, inject, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LoginService} from '../services/login.service';
 import {MatButton} from '@angular/material/button';
-import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
+import {NotificationService} from '../services/notification.service';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +15,6 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  private _snackBar = inject(MatSnackBar);
-
   @Input()
   set redirectUrl(value: string) {
     if (value && value.startsWith('/')) {
@@ -24,16 +22,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  public constructor(public loginService: LoginService, public router: Router) {
+  public constructor(public loginService: LoginService, public router: Router, public notificationService: NotificationService) {
   }
 
   ngOnInit(): void {
   }
 
-
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
-  }
 
   public logout(): void {
     this.loginService.logout();

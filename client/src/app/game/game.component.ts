@@ -17,11 +17,15 @@ export class GameComponent implements OnInit{
   @ViewChild('dynamicGameModeComponentContainer', { read: ViewContainerRef, static: true })
   dynamicGameModeComponentContainer!: ViewContainerRef;
 
+  @ViewChild('dynamicKeyBoardContainer', { read: ViewContainerRef, static: true })
+  dynamicKeyboardComponentContainer!: ViewContainerRef;
+
   constructor(public gameControlService: GameControlService) {
   }
 
   ngOnInit(): void {
-    this.gameControlService.setViewContainerRef(this.dynamicGameModeComponentContainer);
+    this.gameControlService.setViewContainerRefGameMode(this.dynamicGameModeComponentContainer);
+    this.gameControlService.setViewContainerRefKeyBoard(this.dynamicKeyboardComponentContainer);
   }
 
   loadComponent(gameModeName: string): void {
