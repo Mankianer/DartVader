@@ -1,13 +1,13 @@
 <div class="keyboard">
-  <div mat-flat-button class="key" *ngFor="let n of numbers">{{n}}</div>
-  <div class="back key special">
-    <mat-icon class="back-icon">backspace</mat-icon>
+  <div mat-flat-button class="key" *ngFor="let n of numbers" (click)="input(n)">{{multiplierChar()}} {{n}}</div>
+  <div class="back key special" (click)="input('back')">
+    <mat-icon class="back-icon" >backspace</mat-icon>
   </div>
-  <div class="key special zero">0</div>
-  <div class="key special twenty-five">25</div>
-  <div class="key special fifty">50</div>
+  <div class="key special zero" (click)="input(0)">0</div>
+  <div class="key special twenty-five" (click)="input(25)">25</div>
+  <div class="key special fifty" (click)="input(50)">50</div>
   <div class="bottom">
-    <div class="key">Double</div>
-    <div class="key">Triple</div>
+    <div class="key double" [ngClass]="{'selected': multiplier() === 2}" (click)="setMultiplier(2)">Double</div>
+    <div class="key triple" [ngClass]="{'selected': multiplier() === 3}" (click)="setMultiplier(3)">Triple</div>
   </div>
 </div>

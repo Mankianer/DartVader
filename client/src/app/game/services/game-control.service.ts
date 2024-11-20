@@ -12,6 +12,7 @@ import {
 import {DownComponent} from '../modes/down/down.component';
 import {GameMode} from '../modes/game-modes';
 import {NotificationService} from '../../services/notification.service';
+import {isKeyInputEvent} from '../../ui/keyboards/keyboards';
 
 @Injectable({
   providedIn: 'root'
@@ -37,17 +38,39 @@ export class GameControlService {
     return null;
   });
 
+  private currentKeyBoardInstance_ = computed(() => {
+    let currentGameModeInstance = this.currentGameModeInstance_();
+    this.viewContainerRefKeyBoard?.clear();
+    if (currentGameModeInstance) {
+      let currentKeyBoard = currentGameModeInstance.instance.getKeyBoard();
+      if (this.viewContainerRefKeyBoard) {
+        return this.viewContainerRefKeyBoard.createComponent(currentKeyBoard);
+      }
+    }
+    return null;
+  });
+
+  public currentKeyBoardInput = computed(() => {
+    let currentKeyBoardInstance = this.currentKeyBoardInstance_();
+    if (currentKeyBoardInstance) {
+      return currentKeyBoardInstance.instance.getInput();
+    }
+    return null;
+  });
+
+  private lastScore_: WritableSignal<number | null> = signal(null);
+  public lastScore = this.lastScore_.asReadonly();
+
   constructor(public notificationService: NotificationService) {
     effect(() => {
-      let currentGameModeInstance = this.currentGameModeInstance_();
-      this.viewContainerRefKeyBoard?.clear();
-      if (currentGameModeInstance) {
-        let currentKeyBoard = currentGameModeInstance.instance.getKeyBoard();
-        if (this.viewContainerRefKeyBoard) {
-          this.viewContainerRefKeyBoard.createComponent(currentKeyBoard);
-          return;
-        }
+      let lastInput = this.currentKeyBoardInput(); //need to trigger game-start
+      if(lastInput == null) {
+        this.lastScore_.set(lastInput);
+      } else if (!isKeyInputEvent(lastInput)) {
+        this.lastScore_.set(lastInput.value);
       }
+    }, {
+      allowSignalWrites: true,
     });
   }
 

@@ -1,6 +1,13 @@
-import {Component, signal, Signal} from '@angular/core';
-import {InputSingleDart, SingleDartKeyboard} from '../../keyboards';
-import {NgForOf} from '@angular/common';
+import {Component, computed, signal, Signal, WritableSignal} from '@angular/core';
+import {
+  DartSegment,
+  InputSingleDart,
+  isDartSegment,
+  KeyInputEvent,
+  SingleDartKeyboard,
+  StandardSegment
+} from '../../keyboards';
+import {NgClass, NgForOf} from '@angular/common';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 
@@ -10,20 +17,55 @@ import {MatIcon} from '@angular/material/icon';
   imports: [
     NgForOf,
     MatButtonModule,
-    MatIcon
+    MatIcon,
+    NgClass
   ],
   templateUrl: './default-single-dart-keyboard.component.html',
   styleUrl: './default-single-dart-keyboard.component.sass'
 })
 export class DefaultSingleDartKeyboardComponent extends SingleDartKeyboard {
 
-  private getInput_ = signal(new InputSingleDart());
-  public getInput: Signal<InputSingleDart> = this.getInput_.asReadonly();
+  private getInput_: WritableSignal<InputSingleDart | KeyInputEvent > = signal('init-keyboard');
+  public getInput = this.getInput_.asReadonly();
 
-  public numbers: number[] = Array.from({ length: 20 }, (_, i) => i + 1);
+  numbers: StandardSegment[] = Array.from({ length: 20 }, (_, i) =>  (i + 1) as StandardSegment);
+
+  private multiplier_: WritableSignal<1 | 2 | 3> = signal(2);
+  multiplier = this.multiplier_.asReadonly();
+  multiplierChar: Signal<string> = computed(() => {
+    switch (this.multiplier_()) {
+      case 1:
+        return '';
+      case 2:
+        return 'D';
+      case 3:
+        return 'T';
+    }
+  });
+
 
   constructor() {
     super();
+  }
+
+  input(value: DartSegment | KeyInputEvent): void {
+    let input: InputSingleDart | KeyInputEvent;
+    if (isDartSegment(value)) {
+      input = new InputSingleDart();
+      input.segment = value;
+      input.multiplier = this.multiplier_();
+    } else {
+      input = value;
+    }
+    this.getInput_.set(input);
+  }
+
+  setMultiplier(multiplier: 2 | 3): void {
+    if (this.multiplier_() === multiplier) {
+      this.multiplier_.set(1);
+      return;
+    }
+    this.multiplier_.set(multiplier);
   }
 
 }

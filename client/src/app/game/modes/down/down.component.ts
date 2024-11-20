@@ -1,4 +1,4 @@
-import {Component, Signal, Type} from '@angular/core';
+import {Component, effect, Signal, Type} from '@angular/core';
 import {GameControlService} from '../../services/game-control.service';
 import {MatButtonModule} from '@angular/material/button';
 import {UiConfigService} from '../../../services/ui-config.service';
@@ -19,6 +19,10 @@ export class DownComponent extends GameMode {
   constructor(public gameControlService: GameControlService, private uiConfigService: UiConfigService) {
     super();
     this.getKeyBoard = uiConfigService.defaultKeyboard;
+    effect(() => {
+      let currentKeyBoardInput = this.gameControlService.currentKeyBoardInput();
+      console.log('input:', currentKeyBoardInput);
+    });
   }
 
 }
